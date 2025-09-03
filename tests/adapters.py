@@ -8,6 +8,9 @@ from jaxtyping import Float, Int
 import numpy.typing as npt
 import torch
 from torch import Tensor
+import regex as re
+from collections import Counter
+from multiprocessing import Pool, Manager
 
 
 def run_linear(
@@ -300,7 +303,7 @@ def run_transformer_lm(
         num_heads (int): Number of heads to use in multi-headed attention. `d_model` must be
             evenly divisible by `num_heads`.
         d_ff (int): Dimensionality of the feed-forward inner layer (section 3.3).
-        rope_theta (float): The RoPE $\Theta$ parameter.
+        rope_theta (float): The RoPE $\\Theta$ parameter.
         weights (dict[str, Tensor]):
             State dict of our reference implementation. {num_layers} refers to an
             integer between `0` and `num_layers - 1` (the layer index).
@@ -561,6 +564,16 @@ def get_tokenizer(
     """
     raise NotImplementedError
 
+def pre_tokenization(doc):
+    PAT = r"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
+    local_tokens = Counter()
+    matches = re.finditer(PAT, doc)
+    for m in matches:
+        bs = m.group().encode("utf-8")
+        t = tuple(bytes([b]) for b in bs)
+        if len(t) != 1 or ord(t[0]) > 255:
+            local_tokens[t] += 1
+    return local_tokens
 
 def run_train_bpe(
     input_path: str | os.PathLike,
@@ -589,4 +602,79 @@ def run_train_bpe(
                 representing that <token1> was merged with <token2>.
                 Merges are ordered by order of creation.
     """
-    raise NotImplementedError
+    # 1.Vocabulary initialization
+    vocab = {i: bytes(special_tokens[i].encode("utf-8")) for i in range(len(special_tokens))}
+    offset = len(special_tokens)
+    vocab.update({i+offset: bytes([i]) for i in range(256)})
+
+    # 2.Pre-tokenization
+    docs = []
+    with open(input_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+        docs = re.split("|".join(re.escape(s) for s in special_tokens), content)
+    
+    # with Pool(processes=4) as pool:
+    #     local_dicts = pool.map(pre_tokenization, docs)
+    # tokens: dict[tuple[bytes], int] = Counter()
+    # for d in local_dicts:
+    #     tokens.update(d)
+    tokens = Counter()
+    for doc in docs:
+        local = pre_tokenization(doc)
+        tokens.update(local)
+
+    # 3.Compute BPE merges
+    merges = []
+    pairs = {}
+    for t, num in tokens.items():
+        for i in range(len(t) - 1):
+            pair = (t[i], t[i+1])
+            pairs[pair] = pairs.get(pair, 0) + num
+    while len(vocab) < vocab_size and len(pairs) > 0:
+        max_count = max(pairs.values())
+        max_ks = sorted([k for k, v in pairs.items() if v == max_count], reverse=True)
+        merges.append(max_ks[0])
+        del pairs[max_ks[0]]
+        selected_pair = max_ks[0][0] + max_ks[0][1]
+        vocab[len(vocab)] = selected_pair
+
+        # merge pairs in pre-tokens
+        for t in list(tokens):
+            matches = []
+            i = 0
+            while i < len(t) - 1:
+                if selected_pair == t[i] + t[i+1]:
+                    # 合并pair会影响其他相邻pair的统计
+                    if i > 0:
+                        pair = (t[i-1], t[i])
+                        if pair in pairs:
+                            pairs[pair] -= tokens[t]
+                            if pairs[pair] <= 0:
+                                del pairs[pair]
+                    if i < len(t) - 2:
+                        pair = (t[i+1], t[i+2])
+                        if pair in pairs:
+                            pairs[pair] -= tokens[t]
+                            if pairs[pair] <= 0:
+                                del pairs[pair]
+                    matches.append(i)
+                    i+=1
+                i+=1
+            if len(matches) > 0:
+                matches.append(len(t))
+                new_t = t[:matches[0]]
+                for i in range(len(matches) - 1):
+                    new_t += (selected_pair,) + t[matches[i]+2:matches[i+1]]
+                tokens[new_t] = tokens[t]
+                del tokens[t]
+        # add new pairs
+        for t, num in tokens.items():
+            for i in range(len(t) - 1):
+                if t[i] == selected_pair or t[i+1] == selected_pair:
+                    pair = (t[i], t[i+1])
+                    pairs[pair] = pairs.get(pair, 0) + num
+    return vocab, merges
+
+if __name__ == "__main__":
+    # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
+    vocab, merge = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
