@@ -675,18 +675,17 @@ def run_train_bpe(
     tokens: dict[tuple[bytes], int] = Counter()
     split_special_token = b"|".join(re.escape(s).encode("utf-8") for s in special_tokens)
     with open(input_path, "rb") as f:
-        num_processes = 1
+        num_processes = 8
         boundaries = find_chunk_boundaries(f, num_processes, split_special_token)
 
         # The following is a serial implementation, but you can parallelize this
         # by sending each start/end pair to a set of processes.
         partial_pre_tokenize = partial(pre_tokenize, input_path, split_special_token)
-        # with Pool(processes=num_processes) as pool:
-        #     # Run pre-tokenization on your chunk and store the counts for each pre-token
-        #     local_dicts = pool.map(partial_pre_tokenize, zip(boundaries[:-1], boundaries[1:]))
-        #     for d in local_dicts:
-        #         tokens.update(d)
-        tokens = partial_pre_tokenize((boundaries[0], boundaries[1]))
+        with Pool(processes=num_processes) as pool:
+            # Run pre-tokenization on your chunk and store the counts for each pre-token
+            local_dicts = pool.map(partial_pre_tokenize, zip(boundaries[:-1], boundaries[1:]))
+            for d in local_dicts:
+                tokens.update(d)
 
     # 3.Compute BPE merges
     merges = []
@@ -740,6 +739,18 @@ def run_train_bpe(
                     pairs[pair] = pairs.get(pair, 0) + num
     return vocab, merges
 
+def run_train_bpe_tinystories():
+    import pickle
+    vocab, merges = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
+    with open("results/bpe_tinystories.pkl", "wb") as f:
+        pickle.dump({"vocab": vocab, "merges": merges}, f)
+
+def run_train_bpe_expts_owt():
+    import pickle
+    vocab, merges = run_train_bpe(r"data/owt-sample/owt_train.txt", 32000, ['<|endoftext|>'])
+    with open("results/bpe_expts_owt.pkl", "wb") as f:
+        pickle.dump({"vocab": vocab, "merges": merges}, f)
+
 if __name__ == "__main__":
-    vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
-    # vocab, merge = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
+    # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
+    run_train_bpe_tinystories()
