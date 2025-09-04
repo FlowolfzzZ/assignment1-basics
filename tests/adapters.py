@@ -10,7 +10,8 @@ from jaxtyping import Bool, Float, Int
 from torch import Tensor
 import regex as re
 from collections import Counter
-from multiprocessing import Pool, Manager
+from functools import partial
+from multiprocessing import Pool
 
 
 def run_linear(
@@ -564,16 +565,79 @@ def get_tokenizer(
     """
     raise NotImplementedError
 
-def pre_tokenization(doc):
-    PAT = r"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
+def pre_tokenize(input_path, split_special_token, start_end):
+    start, end = start_end
+    PAT = rb"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
     local_tokens = Counter()
-    matches = re.finditer(PAT, doc)
-    for m in matches:
-        bs = m.group().encode("utf-8")
-        t = tuple(bytes([b]) for b in bs)
-        if len(t) != 1 or ord(t[0]) > 255:
-            local_tokens[t] += 1
+    with open(input_path, "rb") as f:
+        f.seek(start)
+        chunk_size = end - start
+        chunk = f.read(chunk_size)
+        special_token_matches = re.finditer(split_special_token, chunk)
+        doc_start = 0
+        while True:
+            stm = next(special_token_matches, None)
+            if stm is not None:
+                matches = re.finditer(PAT, chunk[doc_start:stm.start()])
+                doc_start = stm.end()
+            elif doc_start < chunk_size:
+                matches = re.finditer(PAT, chunk[doc_start:chunk_size])
+                doc_start = chunk_size
+            else:
+                break
+            for m in matches:
+                bs = m.group()
+                t = tuple(bytes([b]) for b in bs)
+                if len(t) != 1 or ord(t[0]) > 255:
+                    local_tokens[t] += 1
     return local_tokens
+
+def find_chunk_boundaries(
+    file: BinaryIO,
+    desired_num_chunks: int,
+    split_special_token: bytes,
+) -> list[int]:
+    """
+    Chunk the file into parts that can be counted independently.
+    May return fewer chunks if the boundaries end up overlapping.
+    """
+    assert isinstance(split_special_token, bytes), "Must represent special token as a bytestring"
+
+    # Get total file size in bytes
+    file.seek(0, os.SEEK_END)
+    file_size = file.tell()
+    file.seek(0)
+
+    chunk_size = file_size // desired_num_chunks
+
+    # Initial guesses for chunk boundary locations, uniformly spaced
+    # Chunks start on previous index, don't include last index
+    chunk_boundaries = [i * chunk_size for i in range(desired_num_chunks + 1)]
+    chunk_boundaries[-1] = file_size
+
+    mini_chunk_size = 4096  # Read ahead by 4k bytes at a time
+
+    for bi in range(1, len(chunk_boundaries) - 1):
+        initial_position = chunk_boundaries[bi]
+        file.seek(initial_position)  # Start at boundary guess
+        while True:
+            mini_chunk = file.read(mini_chunk_size)  # Read a mini chunk
+
+            # If EOF, this boundary should be at the end of the file
+            if mini_chunk == b"":
+                chunk_boundaries[bi] = file_size
+                break
+
+            # Find the special token in the mini chunk
+            found = re.finditer(split_special_token, mini_chunk)
+            first_found = next(found, None)
+            if first_found:
+                chunk_boundaries[bi] = initial_position + first_found.end()
+                break
+            initial_position += mini_chunk_size
+
+    # Make sure all boundaries are unique, but might be fewer than desired_num_chunks
+    return sorted(set(chunk_boundaries))
 
 def run_train_bpe(
     input_path: str | os.PathLike,
@@ -608,20 +672,21 @@ def run_train_bpe(
     vocab.update({i+offset: bytes([i]) for i in range(256)})
 
     # 2.Pre-tokenization
-    docs = []
-    with open(input_path, 'r', encoding='utf-8') as file:
-        content = file.read()
-        docs = re.split("|".join(re.escape(s) for s in special_tokens), content)
-    
-    # with Pool(processes=4) as pool:
-    #     local_dicts = pool.map(pre_tokenization, docs)
-    # tokens: dict[tuple[bytes], int] = Counter()
-    # for d in local_dicts:
-    #     tokens.update(d)
-    tokens = Counter()
-    for doc in docs:
-        local = pre_tokenization(doc)
-        tokens.update(local)
+    tokens: dict[tuple[bytes], int] = Counter()
+    split_special_token = b"|".join(re.escape(s).encode("utf-8") for s in special_tokens)
+    with open(input_path, "rb") as f:
+        num_processes = 1
+        boundaries = find_chunk_boundaries(f, num_processes, split_special_token)
+
+        # The following is a serial implementation, but you can parallelize this
+        # by sending each start/end pair to a set of processes.
+        partial_pre_tokenize = partial(pre_tokenize, input_path, split_special_token)
+        # with Pool(processes=num_processes) as pool:
+        #     # Run pre-tokenization on your chunk and store the counts for each pre-token
+        #     local_dicts = pool.map(partial_pre_tokenize, zip(boundaries[:-1], boundaries[1:]))
+        #     for d in local_dicts:
+        #         tokens.update(d)
+        tokens = partial_pre_tokenize((boundaries[0], boundaries[1]))
 
     # 3.Compute BPE merges
     merges = []
@@ -676,5 +741,5 @@ def run_train_bpe(
     return vocab, merges
 
 if __name__ == "__main__":
-    # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
-    vocab, merge = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
+    vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
+    # vocab, merge = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
