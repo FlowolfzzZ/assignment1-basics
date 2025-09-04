@@ -161,3 +161,10 @@ cython_debug/
 
 .ruff_cache/
 *.zip
+.vscode/
+data/
+tests/fixtures/tinystories_sample_test.txt
+main.py
+profile.html
+profile.json
+.python-version
