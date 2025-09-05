@@ -12,7 +12,9 @@ import regex as re
 from collections import Counter
 from functools import partial
 from multiprocessing import Pool
+import pickle
 
+PAT = rb"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 
 def run_linear(
     d_in: int,
@@ -567,7 +569,6 @@ def get_tokenizer(
 
 def pre_tokenize(input_path, split_special_token, start_end):
     start, end = start_end
-    PAT = rb"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
     local_tokens = Counter()
     with open(input_path, "rb") as f:
         f.seek(start)
@@ -696,10 +697,10 @@ def run_train_bpe(
             pairs[pair] = pairs.get(pair, 0) + num
     while len(vocab) < vocab_size and len(pairs) > 0:
         max_count = max(pairs.values())
-        max_ks = sorted([k for k, v in pairs.items() if v == max_count], reverse=True)
-        merges.append(max_ks[0])
-        del pairs[max_ks[0]]
-        selected_pair = max_ks[0][0] + max_ks[0][1]
+        max_k = max((k for (k, v) in pairs.items() if v == max_count))
+        merges.append(max_k)
+        del pairs[max_k]
+        selected_pair = max_k[0] + max_k[1]
         vocab[len(vocab)] = selected_pair
 
         # merge pairs in pre-tokens
@@ -740,17 +741,24 @@ def run_train_bpe(
     return vocab, merges
 
 def run_train_bpe_tinystories():
-    import pickle
     vocab, merges = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
     with open("results/bpe_tinystories.pkl", "wb") as f:
         pickle.dump({"vocab": vocab, "merges": merges}, f)
 
 def run_train_bpe_expts_owt():
-    import pickle
     vocab, merges = run_train_bpe(r"data/owt-sample/owt_train.txt", 32000, ['<|endoftext|>'])
     with open("results/bpe_expts_owt.pkl", "wb") as f:
         pickle.dump({"vocab": vocab, "merges": merges}, f)
 
+def get_logest_token(input_path):
+    with open(input_path, "rb") as f:
+        data = pickle.load(f)
+    vocab = data["vocab"]
+    logest_token_len = len(max(vocab.values(), key=lambda x: len(x)))
+    logest_token = [t for t in vocab.values() if len(t) == logest_token_len]
+    print(logest_token)
+
 if __name__ == "__main__":
     # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
-    run_train_bpe_tinystories()
+    # run_train_bpe_tinystories()
+    get_logest_token(r"results/bpe_tinystories.pkl")
