@@ -13,6 +13,7 @@ from collections import Counter
 from functools import partial
 from multiprocessing import Pool
 import pickle
+from .tokenizer import Tokenizer
 
 PAT = rb"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 
@@ -565,7 +566,7 @@ def get_tokenizer(
     Returns:
         A BPE tokenizer that uses the provided vocab, merges, and special tokens.
     """
-    raise NotImplementedError
+    return Tokenizer(vocab, merges, special_tokens)
 
 def pre_tokenize(input_path, split_special_token, start_end):
     start, end = start_end
@@ -761,4 +762,5 @@ def get_logest_token(input_path):
 if __name__ == "__main__":
     # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample_5M.txt", 1000, ['<|endoftext|>'])
     # run_train_bpe_tinystories()
+    # run_train_bpe_expts_owt()
     get_logest_token(r"results/bpe_tinystories.pkl")
