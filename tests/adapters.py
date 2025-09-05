@@ -13,9 +13,9 @@ from collections import Counter
 from functools import partial
 from multiprocessing import Pool
 import pickle
+from .constants import GPT2_REGEX_PAT
 from .tokenizer import Tokenizer
 
-PAT = rb"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 
 def run_linear(
     d_in: int,
@@ -580,10 +580,10 @@ def pre_tokenize(input_path, split_special_token, start_end):
         while True:
             stm = next(special_token_matches, None)
             if stm is not None:
-                matches = re.finditer(PAT, chunk[doc_start:stm.start()])
+                matches = re.finditer(GPT2_REGEX_PAT, chunk[doc_start:stm.start()])
                 doc_start = stm.end()
             elif doc_start < chunk_size:
-                matches = re.finditer(PAT, chunk[doc_start:chunk_size])
+                matches = re.finditer(GPT2_REGEX_PAT, chunk[doc_start:chunk_size])
                 doc_start = chunk_size
             else:
                 break

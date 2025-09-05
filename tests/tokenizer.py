@@ -1,14 +1,14 @@
 import pickle
 from collections.abc import Iterable, Iterator
 import regex as re
-from tests.adapters import PAT
+from .constants import GPT2_REGEX_PAT
 
 class Tokenizer:
     def __init__(self, vocab, merges, special_tokens=None):
         self.vocab: dict[int, bytes] = vocab
         self.reverse_vocab: dict[int, bytes] = {v: k for (k, v) in vocab.items()}
         self.merges: list[tuple[bytes, bytes]] = merges
-        self.special_tokens: list[str] | None = special_tokens
+        self.special_tokens: list[str] | None = sorted(special_tokens, key=len, reverse=True) if special_tokens else None
 
     @classmethod
     def from_files(cls, vocab_filepath, merges_filepath, special_tokens=None):
@@ -32,9 +32,9 @@ class Tokenizer:
         for (special_token_start, special_token_end) in special_token_idx:
             end = special_token_start
             chunk = btext[start:end]
-            tokens = re.findall(PAT, chunk)
+            tokens = re.finditer(GPT2_REGEX_PAT, chunk)
             for token in tokens:
-                token_list = list(bytes([t]) for t in token)
+                token_list = list(bytes([t]) for t in token.group())
                 for merge in self.merges:
                     i = 0
                     while True:
@@ -50,15 +50,17 @@ class Tokenizer:
             special_token = btext[special_token_start:special_token_end]
             if len(special_token) != 0:
                 ids.append(self.reverse_vocab[special_token])
+            start = special_token_end
         return ids
 
     def encode_iterable(self, iterable: Iterable[str]) -> Iterator[int]:
         for it in iterable:
-            yield self.encode(it)
+            for token in self.encode(it):
+                yield token
 
     def decode(self, ids: list[int]) -> str:
         tokens = b"".join([(self.vocab[id] if id in self.vocab else "\uFFFD".encode("utf-8")) for id in ids])
-        return tokens.decode("utf-8")
+        return tokens.decode("utf-8", errors="replace")
 
 if __name__ == "__main__":
     # Test for Example (bpe_encoding)
