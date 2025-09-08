@@ -677,7 +677,7 @@ def run_train_bpe(
     tokens = defaultdict(int)
     split_special_token = b"|".join(re.escape(s).encode("utf-8") for s in special_tokens)
     with open(input_path, "rb") as f:
-        num_processes = 8
+        num_processes = 2
         boundaries = find_chunk_boundaries(f, num_processes, split_special_token)
 
         # The following is a serial implementation, but you can parallelize this
@@ -712,7 +712,9 @@ def run_train_bpe(
             token = tokens_key[token_idx]
             idx_list = []
             pair_list = list(zip(token[:-1], token[1:]))
-            for i, pair in enumerate(pair_list):
+            i = 0
+            while i < len(pair_list):
+                pair = pair_list[i]
                 if pair == max_pair:
                     idx_list.append(i)
                     if i > 0:
@@ -721,6 +723,8 @@ def run_train_bpe(
                     if i < len(pair_list) - 1:
                         post = pair_list[i+1]
                         pairs[post] -= tokens[token]
+                    i += 1
+                i += 1
 
             # 在tokens中合并选中的pair
             if len(idx_list) > 0:
@@ -760,4 +764,4 @@ if __name__ == "__main__":
     # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample.txt", 1000, ['<|endoftext|>'])
     # run_train_bpe_tinystories()
     run_train_bpe_expts_owt()
-    # get_logest_token(r"results/bpe_tinystories.pkl")
+    # get_logest_token(r"results/bpe_expts_owt.pkl")
