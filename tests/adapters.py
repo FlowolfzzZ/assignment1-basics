@@ -568,9 +568,9 @@ def get_tokenizer(
     """
     return Tokenizer(vocab, merges, special_tokens)
 
-def pre_tokenize(input_path, split_special_token, start_end):
+def pre_tokenize(input_path, split_special_token, offset, start_end):
     start, end = start_end
-    local_tokens = []
+    local_tokens = defaultdict(int)
     with open(input_path, "rb") as f:
         f.seek(start)
         chunk_size = end - start
@@ -588,9 +588,10 @@ def pre_tokenize(input_path, split_special_token, start_end):
             else:
                 break
             for m in matches:
-                t = list(m.group())
-                if len(t) != 1 or t[0] > 255:
-                    local_tokens.append(t)
+                bs = m.group()
+                t = tuple(b + offset for b in bs)
+                if len(t) != 1 or t[0] > 255 + offset:
+                    local_tokens[t] += 1
     return local_tokens
 
 def find_chunk_boundaries(
@@ -673,29 +674,30 @@ def run_train_bpe(
     vocab.update({i+offset: bytes([i]) for i in range(256)})
 
     # 2.Pre-tokenization
-    tokens = []
+    tokens = defaultdict(int)
     split_special_token = b"|".join(re.escape(s).encode("utf-8") for s in special_tokens)
     with open(input_path, "rb") as f:
-        num_processes = 4
+        num_processes = 8
         boundaries = find_chunk_boundaries(f, num_processes, split_special_token)
 
         # The following is a serial implementation, but you can parallelize this
         # by sending each start/end pair to a set of processes.
-        partial_pre_tokenize = partial(pre_tokenize, input_path, split_special_token)
+        partial_pre_tokenize = partial(pre_tokenize, input_path, split_special_token, offset)
         with Pool(processes=num_processes) as pool:
             # Run pre-tokenization on your chunk and store the counts for each pre-token
             local_tokens = pool.map(partial_pre_tokenize, zip(boundaries[:-1], boundaries[1:]))
             for lt in local_tokens:
                 for t in lt:
-                    tokens.append([x + offset for x in t])
+                    tokens[t] += lt[t]
+    tokens_key = list(tokens.keys())
 
     # 3.Compute BPE merges
     merges = []
     pairs = defaultdict(int)
     pairs_index = defaultdict(set)
-    for i, token in enumerate(tokens):
+    for i, token in enumerate(tokens_key):
         for pair in zip(token[:-1], token[1:]):
-            pairs[pair] += 1
+            pairs[pair] += tokens[token]
             pairs_index[pair].add(i)
     
     while len(vocab) < vocab_size and len(pairs) > 0:
@@ -707,7 +709,7 @@ def run_train_bpe(
         vocab[new_word_idx] = new_word
 
         for token_idx in pairs_index[max_pair]:
-            token = tokens[token_idx]
+            token = tokens_key[token_idx]
             idx_list = []
             pair_list = list(zip(token[:-1], token[1:]))
             for i, pair in enumerate(pair_list):
@@ -715,22 +717,24 @@ def run_train_bpe(
                     idx_list.append(i)
                     if i > 0:
                         pre = pair_list[i-1]
-                        pairs[pre] -= 1
+                        pairs[pre] -= tokens[token]
                     if i < len(pair_list) - 1:
                         post = pair_list[i+1]
-                        pairs[post] -= 1
+                        pairs[post] -= tokens[token]
 
             # 在tokens中合并选中的pair
             if len(idx_list) > 0:
                 idx_list.append(len(token))
                 new_t = token[:idx_list[0]]
                 for i in range(len(idx_list) - 1):
-                    new_t += [new_word_idx] + token[idx_list[i]+2:idx_list[i+1]]
-                tokens[token_idx] = new_t
+                    new_t += (new_word_idx,) + token[idx_list[i]+2:idx_list[i+1]]
+                tokens[new_t] = tokens[token]
+                del tokens[token]
+                tokens_key[token_idx] = new_t
                 # add new pairs
                 for pair in zip(new_t[:-1], new_t[1:]):
-                    if pair[0] == new_word_idx or pair[1] == new_word_idx:
-                        pairs[pair] += 1
+                    if (pair[0] == new_word_idx and pair[1] != new_word_idx) or pair[1] == new_word_idx:
+                        pairs[pair] += tokens[new_t]
                         pairs_index[pair].add(token_idx)
     return vocab, merges
 
