@@ -13,8 +13,8 @@ from collections import Counter, defaultdict
 from functools import partial
 from multiprocessing import Pool
 import pickle
-from tests.constants import GPT2_REGEX_PAT
-from tests.tokenizer import Tokenizer
+from cs336_basics.constants import GPT2_REGEX_PAT
+from cs336_basics.Tokenizer import Tokenizer
 
 
 def run_linear(
