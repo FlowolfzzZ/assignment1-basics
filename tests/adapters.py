@@ -15,7 +15,7 @@ from multiprocessing import Pool
 import pickle
 from cs336_basics.constants import GPT2_REGEX_PAT
 from cs336_basics.Tokenizer import Tokenizer
-from cs336_basics.Linear import Linear
+from cs336_basics.Transformer import Linear, Embedding, RMSNorm, SwiGLU
 
 
 def run_linear(
@@ -36,10 +36,9 @@ def run_linear(
     Returns:
         Float[Tensor, "... d_out"]: The transformed output of your linear module.
     """
-    linear = Linear(d_in, d_out)
-    linear.load_state_dict(weights)
-    x = torch.nn.Module.load_state_dict(in_features)
-    raise linear.forward(x)
+    model = Linear(d_in, d_out)
+    model.load_state_dict({"weight": weights.T})
+    return model(in_features)
 
 
 def run_embedding(
@@ -60,8 +59,9 @@ def run_embedding(
     Returns:
         Float[Tensor, "... d_model"]: Batch of embeddings returned by your Embedding layer.
     """
-
-    raise NotImplementedError
+    model = Embedding(vocab_size, d_model)
+    model.load_state_dict({"weight": weights})
+    return model(token_ids)
 
 
 def run_swiglu(
@@ -93,7 +93,9 @@ def run_swiglu(
     # swiglu.w1.weight.data = w1_weight
     # swiglu.w2.weight.data = w2_weight
     # swiglu.w3.weight.data = w3_weight
-    raise NotImplementedError
+    model = SwiGLU(d_model)
+    model.load_state_dict({"w1": w1_weight.T, "w2": w2_weight.T, "w3": w3_weight.T})
+    return model(in_features)
 
 
 def run_scaled_dot_product_attention(
@@ -388,7 +390,9 @@ def run_rmsnorm(
         Float[Tensor,"... d_model"]: Tensor of with the same shape as `in_features` with the output of running
         RMSNorm of the `in_features`.
     """
-    raise NotImplementedError
+    model = RMSNorm(d_model, eps)
+    model.load_state_dict({"weight": weights})
+    return model(in_features)
 
 
 def run_silu(in_features: Float[Tensor, " ..."]) -> Float[Tensor, " ..."]:
