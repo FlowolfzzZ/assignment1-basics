@@ -44,8 +44,7 @@ class Tokenizer:
                             merge_idx.append((i, self.merges.index(pair)))
                     if len(merge_idx) == 0:
                         break
-                    merge_idx.sort(key=lambda x: x[1])
-                    i = merge_idx[0][0]
+                    i = min(merge_idx, key=lambda x: x[1])[0]
                     new_token = token_list[i] + token_list[i + 1]
                     token_list = token_list[:i] + [new_token] + token_list[i + 2:]
                 for t in token_list:
