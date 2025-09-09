@@ -15,6 +15,7 @@ from multiprocessing import Pool
 import pickle
 from cs336_basics.constants import GPT2_REGEX_PAT
 from cs336_basics.Tokenizer import Tokenizer
+from cs336_basics.Linear import Linear
 
 
 def run_linear(
@@ -35,8 +36,10 @@ def run_linear(
     Returns:
         Float[Tensor, "... d_out"]: The transformed output of your linear module.
     """
-
-    raise NotImplementedError
+    linear = Linear(d_in, d_out)
+    linear.load_state_dict(weights)
+    x = torch.nn.Module.load_state_dict(in_features)
+    raise linear.forward(x)
 
 
 def run_embedding(
