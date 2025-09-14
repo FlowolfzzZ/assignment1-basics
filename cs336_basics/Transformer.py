@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import math
+from einops import einsum, repeat
 
 class Linear(nn.Module):
     def __init__(self, in_features: int, out_features: int, device: torch.device | None=None, dtype: torch.dtype | None=None):
@@ -63,3 +64,23 @@ class SwiGLU(nn.Module):
         x_w1 = x @ self.w1
         silu = torch.mul(x_w1, torch.sigmoid(x_w1))
         return torch.mul(x @ self.w3, silu) @ self.w2
+
+class RotaryPositionalEmbedding(nn.Module):
+    def __init__(self, theta: float, d_k: int, max_seq_len: int, device: torch.device | None=None):
+        super().__init__()
+        self.theta = theta
+        self.d_k = d_k
+        self.max_seq_len = max_seq_len
+        self.device = device
+        rotation_matrix = torch.zeros(max_seq_len, d_k, d_k, device=device)
+        for i in range(max_seq_len):
+            for k in range(1, d_k // 2 + 1):
+                theta_i_k = i / (theta ** ((2*k-2) / d_k))
+                rotation_matrix[i, 2*k-2:2*k, 2*k-2:2*k] = torch.tensor([[math.cos(theta_i_k), math.sin(theta_i_k)],
+                                                                         [-math.sin(theta_i_k), math.cos(theta_i_k)]])
+        self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
+
+    def forward(self, x: torch.Tensor, token_positions: torch.Tensor) -> torch.Tensor:
+        token_position_indices = torch.LongTensor(token_positions)
+        token_rotation_matrix = repeat(self.rotation_matrix[token_position_indices], 'seq_len d_k d_k2 -> n seq_len d_k d_k2', n=x.shape[0])
+        return einsum(x, token_rotation_matrix, '... seq_len d_k, ... seq_len d_k d_k2 -> ... seq_len d_k2')
