@@ -12,8 +12,8 @@ def softmax(x: torch.Tensor, i: int) -> torch.Tensor:
 
 def scaled_dot_product_attention(Q: torch.Tensor, K: torch.Tensor, V: torch.Tensor, mask: torch.Tensor | None = None) -> torch.Tensor:
     d_k = Q.shape[-1]
-    QK = einsum(Q, K, '... queries d_k, ... keys d_k -> ... queries keys')
+    QK = einsum(Q, K, "... queries d_k, ... keys d_k -> ... queries keys")
     if mask is not None:
         QK.masked_fill_(~mask, float('-inf'))
     softmax_QK = softmax(QK / math.sqrt(d_k), -1)
-    return einsum(softmax_QK, V, '... queries keys, ... keys d_v -> ... queries d_v')
+    return einsum(softmax_QK, V, "... queries keys, ... keys d_v -> ... queries d_v")
