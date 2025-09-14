@@ -82,6 +82,9 @@ class RotaryPositionalEmbedding(nn.Module):
         self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
 
     def forward(self, x: torch.Tensor, token_positions: torch.Tensor) -> torch.Tensor:
+        if token_positions is None:
+            seq_len = x.shape[-2]
+            token_positions = torch.arange(seq_len, device=self.device)
         token_position_indices = torch.LongTensor(token_positions)
         token_rotation_matrix = self.rotation_matrix[token_position_indices]
         return einsum(x, token_rotation_matrix, "... seq_len d_k, ... seq_len d_k d_k2 -> ... seq_len d_k2")
@@ -111,9 +114,8 @@ class MultiHeadSelfAttention(nn.Module):
         K = rearrange(K, "... seq_len (num_heads d) -> ... num_heads seq_len d", num_heads=self.num_heads)
         V = rearrange(V, "... seq_len (num_heads d) -> ... num_heads seq_len d", num_heads=self.num_heads)
         seq_len = Q.shape[-2]
-        if token_positions is not None:
-            Q = self.RoPE(Q, token_positions)
-            K = self.RoPE(K, token_positions)
+        Q = self.RoPE(Q, token_positions)
+        K = self.RoPE(K, token_positions)
         mask = ~torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
         attn = rearrange(scaled_dot_product_attention(Q, K, V, mask), "... num_heads seq_len d_v -> ... seq_len (num_heads d_v)")
         return self.output_proj(attn)
