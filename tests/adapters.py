@@ -15,8 +15,9 @@ from multiprocessing import Pool
 import pickle
 from cs336_basics.constants import GPT2_REGEX_PAT
 from cs336_basics.Tokenizer import Tokenizer
-from cs336_basics.Transformer import Linear, Embedding, RMSNorm, SwiGLU, RotaryPositionalEmbedding, MultiHeadSelfAttention, TransformerBlock
-from cs336_basics.functions import softmax, scaled_dot_product_attention
+from cs336_basics.Transformer import Linear, Embedding, RMSNorm, SwiGLU, RotaryPositionalEmbedding, MultiHeadSelfAttention, TransformerBlock, Transformer
+from cs336_basics.functions import softmax, scaled_dot_product_attention, cross_entropy
+from cs336_basics.Optimizer import AdamW
 
 
 def run_linear(
@@ -380,7 +381,9 @@ def run_transformer_lm(
         Float[Tensor, "batch_size sequence_length vocab_size"]: Tensor with the predicted unnormalized
         next-word distribution for each token.
     """
-    raise NotImplementedError
+    model = Transformer(vocab_size, context_length, d_model, num_layers, num_heads, d_ff, rope_theta)
+    model.load_state_dict(weights)
+    return model(in_indices)
 
 
 def run_rmsnorm(
@@ -476,7 +479,7 @@ def run_cross_entropy(
     Returns:
         Float[Tensor, ""]: The average cross-entropy loss across examples.
     """
-    raise NotImplementedError
+    return cross_entropy(inputs, targets)
 
 
 def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float) -> None:
@@ -495,7 +498,7 @@ def get_adamw_cls() -> Any:
     """
     Returns a torch.optim.Optimizer that implements AdamW.
     """
-    raise NotImplementedError
+    return AdamW
 
 
 def run_get_lr_cosine_schedule(

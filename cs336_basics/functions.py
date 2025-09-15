@@ -17,3 +17,9 @@ def scaled_dot_product_attention(Q: torch.Tensor, K: torch.Tensor, V: torch.Tens
         QK.masked_fill_(~mask, float('-inf'))
     softmax_QK = softmax(QK / math.sqrt(d_k), -1)
     return einsum(softmax_QK, V, "... queries keys, ... keys d_v -> ... queries d_v")
+
+def cross_entropy(inputs: torch.Tensor, targets: torch.Tensor):
+    inputs_max, _ = torch.max(inputs, dim=-1, keepdim=True)
+    inputs -= inputs_max
+    loss = -torch.gather(inputs, dim=-1, index=torch.unsqueeze(targets, dim=-1)) + torch.log(torch.sum(torch.exp(inputs), dim=-1, keepdim=True))
+    return torch.mean(loss)
