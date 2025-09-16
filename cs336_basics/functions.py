@@ -2,6 +2,9 @@ import torch
 import math
 from einops import einsum
 from collections.abc import Iterable
+import numpy
+import os
+import typing
 
 def softmax(x: torch.Tensor, i: int) -> torch.Tensor:
     # two parameters: a tensor and a dimension i
@@ -34,7 +37,36 @@ def learning_rate_schedule(t: int, max_learning_rate: float, min_learning_rate: 
         return min_learning_rate
 
 def gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float, eps: float = 1e-6) -> None:
+    total = 0
     for param in parameters:
-        norm = torch.norm(param.grad, p=2)
-        if norm >= max_l2_norm:
-            param.grad *= max_l2_norm / (norm + eps)
+        if param.grad is not None:
+            total += torch.norm(param.grad, p=2) ** 2
+    total = math.sqrt(total)
+    if total >= max_l2_norm:
+        for param in parameters:
+            if param.grad is not None:
+                param.grad *= max_l2_norm / (total + eps)
+
+def get_batch(x: numpy.typing.NDArray, batch_size: int, context_length: int, device: str):
+    x = torch.Tensor(x, device=device)
+    input = []
+    next_token = []
+    sample_start = torch.randint(low=0, high=len(x)-context_length, size=(batch_size,))
+    for i in range(batch_size):
+        start = sample_start[i]
+        input.append(x[start:start+context_length])
+        next_token.append(x[start+1:start+context_length+1])
+    return (torch.stack(input, dim=0), torch.stack(next_token, dim=0))
+
+def save_checkpoint(model: torch.nn.Module, optimizer: torch.optim.Optimizer, iteration: int, out: str | os.PathLike | typing.BinaryIO | typing.IO[bytes]):
+    state_dict = {}
+    state_dict["model"] = model.state_dict()
+    state_dict["optimizer"] = optimizer.state_dict()
+    state_dict["iteration"] = iteration
+    torch.save(state_dict, out)
+
+def load_checkpoint(src: str | os.PathLike | typing.BinaryIO | typing.IO[bytes], model: torch.nn.Module, optimizer: torch.optim.Optimizer):
+    state_dict = torch.load(src)
+    model.load_state_dict(state_dict["model"])
+    optimizer.load_state_dict(state_dict["optimizer"])
+    return state_dict["iteration"]
