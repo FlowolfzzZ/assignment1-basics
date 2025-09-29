@@ -114,8 +114,9 @@ class MultiHeadSelfAttention(nn.Module):
         K = rearrange(K, "... seq_len (num_heads d) -> ... num_heads seq_len d", num_heads=self.num_heads)
         V = rearrange(V, "... seq_len (num_heads d) -> ... num_heads seq_len d", num_heads=self.num_heads)
         seq_len = Q.shape[-2]
-        Q = self.RoPE(Q, token_positions)
-        K = self.RoPE(K, token_positions)
+        if self.RoPE is not None:
+            Q = self.RoPE(Q, token_positions)
+            K = self.RoPE(K, token_positions)
         mask = ~torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
         attn = rearrange(scaled_dot_product_attention(Q, K, V, mask), "... num_heads seq_len d_v -> ... seq_len (num_heads d_v)")
         return self.output_proj(attn)

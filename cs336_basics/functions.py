@@ -5,6 +5,7 @@ from collections.abc import Iterable
 import numpy
 import os
 import typing
+import numpy as np
 
 def softmax(x: torch.Tensor, i: int) -> torch.Tensor:
     # two parameters: a tensor and a dimension i
@@ -51,7 +52,7 @@ def get_batch(x: numpy.typing.NDArray, batch_size: int, context_length: int, dev
     x = torch.Tensor(x, device=device)
     input = []
     next_token = []
-    sample_start = torch.randint(low=0, high=len(x)-context_length, size=(batch_size,))
+    sample_start = np.random.randint(low=0, high=len(x)-context_length, size=(batch_size,))
     for i in range(batch_size):
         start = sample_start[i]
         input.append(x[start:start+context_length])

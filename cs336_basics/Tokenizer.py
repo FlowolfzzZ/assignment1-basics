@@ -8,6 +8,7 @@ class Tokenizer:
         self.vocab: dict[int, bytes] = vocab
         self.reverse_vocab: dict[bytes, int] = {v: k for (k, v) in vocab.items()}
         self.merges: list[tuple[bytes, bytes]] = merges
+        self.merges_id: dict[tuple[bytes, bytes], int] = {pair: i for i, pair in enumerate(merges)}
         self.special_tokens: list[str] | None = sorted(special_tokens, key=len, reverse=True) if special_tokens else None
 
     @classmethod
@@ -40,8 +41,8 @@ class Tokenizer:
                     merge_idx = []
                     for i in range(len(token_list) - 1):
                         pair = (token_list[i], token_list[i + 1])
-                        if pair in self.merges:
-                            merge_idx.append((i, self.merges.index(pair)))
+                        if pair in self.merges_id:
+                            merge_idx.append((i, self.merges_id[pair]))
                     if len(merge_idx) == 0:
                         break
                     i = min(merge_idx, key=lambda x: x[1])[0]
@@ -73,38 +74,6 @@ if __name__ == "__main__":
     # s = tokenizer.decode(ids)
 
     # Test for Problem (tokenizer_experiments)
-    with open(r"results/bpe_tinystories.pkl", "rb") as f:
-        data = pickle.load(f)
-        tinystories_vocab, tinystories_merges = data["vocab"], data["merges"]
-    with open(r"results/bpe_expts_owt.pkl", "rb") as f:
-        data = pickle.load(f)
-        owt_vocab, owt_merges = data["vocab"], data["merges"]
-    tinystories_tokenizer = Tokenizer(tinystories_vocab, tinystories_merges, ['<|endoftext|>'])
-    owt_tokenizer = Tokenizer(owt_vocab, owt_merges, ['<|endoftext|>'])
-    s = ""
-    # with open(r"tests/fixtures/tinystories_sample.txt", "r", encoding="utf-8") as f:
-    #     s += f.read()
-    # with open(r"tests/fixtures/expts_owt_sample.txt", "r", encoding="utf-8") as f:
-    #     s += f.read()
-    with open(r"tests/fixtures/tinystories_sample_5M.txt", "r", encoding="utf-8") as f:
-        s += f.read()
-    import time
-    start_time = time.time()
-    tinystories_ids = tinystories_tokenizer.encode(s)
-    end_time = time.time()
-    print(f"tinystories encoding time: {end_time - start_time} seconds")
-    start_time = time.time()
-    owt_ids = owt_tokenizer.encode(s)
-    end_time = time.time()
-    print(f"owt encoding time: {end_time - start_time} seconds")
-    print()
-    print(f"input bytes: {len(s.encode("utf-8"))}")
-    print()
-    print(f"tinystories_ids(len {len(tinystories_ids)})")
-    print()
-    print(f"owt_ids(len {len(owt_ids)})")
-
-    # Encode train and valid datasets
     # with open(r"results/bpe_tinystories.pkl", "rb") as f:
     #     data = pickle.load(f)
     #     tinystories_vocab, tinystories_merges = data["vocab"], data["merges"]
@@ -114,14 +83,46 @@ if __name__ == "__main__":
     # tinystories_tokenizer = Tokenizer(tinystories_vocab, tinystories_merges, ['<|endoftext|>'])
     # owt_tokenizer = Tokenizer(owt_vocab, owt_merges, ['<|endoftext|>'])
     # s = ""
-    # import numpy as np
-    # with open(r"data/TinyStories/TinyStories-train.txt", "r", encoding="utf-8") as f:
-    #     s = f.read()
-    #     ids = tinystories_tokenizer.encode(s)
-    #     arr = np.array(ids, dtype=np.uint16)
-    #     np.save(r"results/token_ids/TinyStories-train.npy", arr)
-    # with open(r"data/TinyStories/TinyStories-valid.txt", "r", encoding="utf-8") as f:
-    #     s = f.read()
-    #     ids = tinystories_tokenizer.encode(s)
-    #     arr = np.array(ids, dtype=np.uint16)
-    #     np.save(r"results/token_ids/TinyStories-valid.npy", arr)
+    # # with open(r"tests/fixtures/tinystories_sample.txt", "r", encoding="utf-8") as f:
+    # #     s += f.read()
+    # # with open(r"tests/fixtures/expts_owt_sample.txt", "r", encoding="utf-8") as f:
+    # #     s += f.read()
+    # with open(r"tests/fixtures/tinystories_sample_5M.txt", "r", encoding="utf-8") as f:
+    #     s += f.read()
+    # import time
+    # start_time = time.time()
+    # tinystories_ids = tinystories_tokenizer.encode(s)
+    # end_time = time.time()
+    # print(f"tinystories encoding time: {end_time - start_time} seconds")
+    # start_time = time.time()
+    # owt_ids = owt_tokenizer.encode(s)
+    # end_time = time.time()
+    # print(f"owt encoding time: {end_time - start_time} seconds")
+    # print()
+    # print(f"input bytes: {len(s.encode("utf-8"))}")
+    # print()
+    # print(f"tinystories_ids(len {len(tinystories_ids)})")
+    # print()
+    # print(f"owt_ids(len {len(owt_ids)})")
+
+    # Encode train and valid datasets
+    with open(r"results/bpe_tinystories.pkl", "rb") as f:
+        data = pickle.load(f)
+        tinystories_vocab, tinystories_merges = data["vocab"], data["merges"]
+    with open(r"results/bpe_expts_owt.pkl", "rb") as f:
+        data = pickle.load(f)
+        owt_vocab, owt_merges = data["vocab"], data["merges"]
+    tinystories_tokenizer = Tokenizer(tinystories_vocab, tinystories_merges, ['<|endoftext|>'])
+    owt_tokenizer = Tokenizer(owt_vocab, owt_merges, ['<|endoftext|>'])
+    s = ""
+    import numpy as np
+    with open(r"data/TinyStories/TinyStories-train.txt", "r", encoding="utf-8") as f:
+        s = f.read()
+        ids = tinystories_tokenizer.encode(s)
+        arr = np.array(ids, dtype=np.uint16)
+        np.save(r"results/token_ids/TinyStories-train.npy", arr)
+    with open(r"data/TinyStories/TinyStories-valid.txt", "r", encoding="utf-8") as f:
+        s = f.read()
+        ids = tinystories_tokenizer.encode(s)
+        arr = np.array(ids, dtype=np.uint16)
+        np.save(r"results/token_ids/TinyStories-valid.npy", arr)
