@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import math
 from einops import einsum
 from collections.abc import Iterable
@@ -6,11 +7,12 @@ import numpy
 import os
 import typing
 import numpy as np
+from cs336_basics import Tokenizer
 
-def softmax(x: torch.Tensor, i: int) -> torch.Tensor:
+def softmax(x: torch.Tensor, i: int, temperature: float = 1.0) -> torch.Tensor:
     # two parameters: a tensor and a dimension i
     max_value, _ = torch.max(x, dim=i, keepdim=True)
-    new_x = x - max_value
+    new_x = (x - max_value) / temperature
     numerator = torch.exp(new_x)
     denominator = torch.sum(numerator, dim=i, keepdim=True)
     return numerator / denominator
@@ -71,3 +73,25 @@ def load_checkpoint(src: str | os.PathLike | typing.BinaryIO | typing.IO[bytes],
     model.load_state_dict(state_dict["model"])
     optimizer.load_state_dict(state_dict["optimizer"])
     return state_dict["iteration"]
+
+def decoding(model: nn.Module, tokenizer: Tokenizer, prompt: str, max_tokens: int, temperature: float, top_p: float) -> str:
+    special_token = "<|endoftext|>"
+    special_token_id = tokenizer.encode(special_token)
+    x = tokenizer.encode(prompt)
+    y = []
+    start = len(x)
+    for t in range(start, max_tokens):
+        logits = model(x)
+        if temperature == 0:
+            max_logit = torch.max(logits, dim=-1, keepdim=True)
+            probs = torch.where(logits >= max_logit, 1.0, 0.0)
+        else:
+            probs = softmax(logits, -1)
+        probs = torch.where(probs >= top_p, probs, 0.0)
+        denominator = torch.sum(probs, dim=-1, keepdim=True)
+        probs /= denominator
+        sample_token_id = torch.multinomial(probs, num_samples=1)
+        y.append(sample_token_id)
+        if sample_token_id == special_token_id:
+            break
+    return tokenizer.decode(y)
