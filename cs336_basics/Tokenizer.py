@@ -30,10 +30,11 @@ class Tokenizer:
         special_token_idx.append((len(btext), len(btext)))
         start = 0
         ids = []
-        for (special_token_start, special_token_end) in special_token_idx:
+        for sentence_id, (special_token_start, special_token_end) in enumerate(special_token_idx):
             end = special_token_start
             chunk = btext[start:end]
-            print(f"text len: {len(btext)},  processing chunk: {start} to {end}")
+            # if sentence_id % 10000 == 0:
+            #     print(f"sentence id: {sentence_id}, text len: {len(btext)},  processing chunk: {start} to {end}")
             tokens = re.finditer(GPT2_REGEX_PAT, chunk)
             for token in tokens:
                 token_list = list(bytes([t]) for t in token.group())
@@ -116,13 +117,24 @@ if __name__ == "__main__":
     owt_tokenizer = Tokenizer(owt_vocab, owt_merges, ['<|endoftext|>'])
     s = ""
     import numpy as np
-    with open(r"data/TinyStories/TinyStories-train.txt", "r", encoding="utf-8") as f:
-        s = f.read()
-        ids = tinystories_tokenizer.encode(s)
-        arr = np.array(ids, dtype=np.uint16)
-        np.save(r"results/token_ids/TinyStories-train.npy", arr)
-    with open(r"data/TinyStories/TinyStories-valid.txt", "r", encoding="utf-8") as f:
-        s = f.read()
-        ids = tinystories_tokenizer.encode(s)
-        arr = np.array(ids, dtype=np.uint16)
-        np.save(r"results/token_ids/TinyStories-valid.npy", arr)
+    buffer = []
+    sep = '<|endoftext|>'
+    sep_id = tinystories_tokenizer.encode(sep)
+    with open(r"data/owt-sample/owt_train.txt", "r", encoding="utf-8") as f:
+        arr = np.array([], dtype=np.uint16)
+        for i, line in enumerate(f):
+            while sep in line:
+                idx = line.index(sep)
+                buffer.append(line[:idx])
+                ids = tinystories_tokenizer.encode("".join(buffer))
+                np.append(arr, ids)
+                np.append(arr, sep_id)
+                buffer = []
+                line = line[idx + len(sep):]
+            buffer.append(line)
+            if i % 100000 == 0:
+                print(f"line id: {i}", flush=True)
+        if len(buffer) > 0:
+            ids = tinystories_tokenizer.encode("".join(buffer))
+            np.append(arr, ids)
+        np.save(r"results/token_ids/tinystories-vocab/owt_train.npy", arr)

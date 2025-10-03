@@ -168,3 +168,8 @@ main.py
 profile.html
 profile.json
 .python-version
+slurm*.err
+slurm*.out
+results/training_TinyStories
+results/training_TinyStories_batch_size
+results/training_owt

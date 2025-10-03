@@ -15,8 +15,8 @@ from multiprocessing import Pool
 import pickle
 from cs336_basics.constants import GPT2_REGEX_PAT
 from cs336_basics.Tokenizer import Tokenizer
-from cs336_basics.Transformer import Linear, Embedding, RMSNorm, SwiGLU, RotaryPositionalEmbedding, MultiHeadSelfAttention, TransformerBlock, Transformer
-from cs336_basics.functions import softmax, scaled_dot_product_attention, cross_entropy, learning_rate_schedule, gradient_clipping, get_batch, save_checkpoint, load_checkpoint
+from cs336_basics.Transformer import Linear, Embedding, RMSNorm, SwiGLU, RotaryPositionalEmbedding, MultiHeadSelfAttention, TransformerBlock, Transformer, softmax, scaled_dot_product_attention
+from cs336_basics.functions import cross_entropy, learning_rate_schedule, gradient_clipping, get_batch, save_checkpoint, load_checkpoint
 from cs336_basics.Optimizer import AdamW
 
 
@@ -766,7 +766,7 @@ def run_train_bpe(
     return vocab, merges
 
 def run_train_bpe_tinystories():
-    vocab, merges = run_train_bpe(r"data/TinyStories/TinyStoriesV2-GPT4-train.txt", 10000, ['<|endoftext|>'])
+    vocab, merges = run_train_bpe(r"data/TinyStories/TinyStories-train.txt", 10000, ['<|endoftext|>'])
     with open("results/bpe_tinystories.pkl", "wb") as f:
         pickle.dump({"vocab": vocab, "merges": merges}, f)
 
@@ -785,6 +785,6 @@ def get_logest_token(input_path):
 
 if __name__ == "__main__":
     # vocab, merge = run_train_bpe(r"tests/fixtures/tinystories_sample.txt", 1000, ['<|endoftext|>'])
-    # run_train_bpe_tinystories()
-    run_train_bpe_expts_owt()
+    run_train_bpe_tinystories()
+    # run_train_bpe_expts_owt()
     # get_logest_token(r"results/bpe_expts_owt.pkl")
