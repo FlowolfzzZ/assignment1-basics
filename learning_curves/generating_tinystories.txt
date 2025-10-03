@@ -1,0 +1,28 @@
+temperature=1.0, top_p=0.9:
+Once upon a time, there was a little girl named Lily. She loved to gather pretty rocks and play with her rock friends. One day, she saw a new pattern on the ground. It was red, blue, and yellow. She thought it was the most beautiful rock she had ever seen.
+Lily wanted to keep the rock, but she knew it was too big to keep the rock. So, she picked up the rock and took it to her mom. Her mom said, "You can keep the rock, but you must keep it safe."
+Lily put the rock in her room. She was happy to keep it safe. Every day, she looked at the pretty pattern on the rock. And she loved it even more.
+<|endoftext|>
+Once upon a time, there was a big ostrich named Ollie. Ollie was a fair ostrich. He had many friends. They liked to play and run together. Ollie was very happy.
+One day, Ollie and his friends were playing a game. They had to supply food to all the animals. Ollie was very hungry. He had to choose what food to eat.
+Ollie looked at his friend, a small bird named Billy. He chose the bird because he had a big bowl of fish. Ollie thought that if he gave the fish, they would all be happy. Ollie did not want to be hungry, but he wanted to keep the fish. So, he gave the fish some food.
+But when Ollie went to eat the fish, he found out that it was not food. The fish was just hungry. Ollie was surprised. He did not want to eat the fish. He wanted to play with his friends instead. So, Ollie shared his food with them. They all had a fun day at the fair.
+<|endoftext|>
+
+temperature=0.0, top_p=0.9:
+Once upon a time, there was a little girl named Lily. She had a big, red ball that she loved to play with. One day, she went to the park with her mom and her big, red ball.
+At the park, Lily saw a boy named Tim. Tim was sad because he had no toys to play with. Lily wanted to help Tim, so she said, "Hi, I am Lily. Do you want to play with me?" Tim smiled and said, "Yes, I would love to play with you!"
+Lily and Tim played with the big, red ball. They had so much fun! They laughed and played all day. When it was time to go home, Lily said, "Thank you, Tim, for helping me find my ball!" Tim smiled and said, "You're welcome, Lily. I had fun too!" And they both went home, happy and tired from their fun day at the park.
+<|endoftext|>
+
+temperature=1.0, top_p=0.0:
+Once upon a time, there was a little girl named Lily. She had a big, red ball that she loved to play with. One day, she went to the park with her mom and her big, red ball.
+At the park, Lily saw a boy named Tim. Tim was sad because he had no toys to play with. Lily wanted to help Tim, so she said, "Hi, I am Lily. Do you want to play with me?" Tim smiled and said, "Yes, I would love to play with you!"
+Lily and Tim played with the big, red ball. They had so much fun! They laughed and played all day. When it was time to go home, Lily said, "Thank you, Tim, for helping me find my ball!" Tim smiled and said, "You're welcome, Lily. I had fun too!" And they both went home, happy and tired from their fun day at the park.
+<|endoftext|>
+
+temperature=1.0, top_p=1.0:
+Once upon a time, there was a kind boy named Tim. He lived near the sea with his mom and dad. Tim liked to wave at the sea with his dad. He would wave at them and smile.
+One day, Tim saw a big ship coming. He knew he needed to stop the ship. He waved goodbye to the ship and watched it go. The ship went around and around, making a lot of noise. Tim was happy that he got to show his mom and dad his helpful act.
+After a while, Tim's dad came. He saw the ship and was angry too, but he knew what Lily pressed. "Dad, what is that?" Tim asked. His dad said, "That is my boat. You should not play with it, it is not nice." Tim felt sad and said, "I'm sorry, dad. I will not play with the ship anymore." Tim cried and wished he could take the ship back to the shore.
+<|endoftext|>

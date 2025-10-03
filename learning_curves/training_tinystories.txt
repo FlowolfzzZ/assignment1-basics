@@ -1,0 +1,258 @@
+max_learning_rate: 1e-3
+min_learning_rate: 1e-5
+Step: 100. Validation loss: 3.15625. Learning rate: 0.0009989829694114164. Elapsed time: 43.41 seconds.
+Step: 200. Validation loss: 2.234375. Learning rate: 0.0009908717827105773. Elapsed time: 85.84 seconds.
+Step: 300. Validation loss: 2.046875. Learning rate: 0.000974782594770281. Elapsed time: 128.60 seconds.
+Step: 400. Validation loss: 2.0. Learning rate: 0.0009509795896116975. Elapsed time: 172.25 seconds.
+Step: 500. Validation loss: 1.96875. Learning rate: 0.0009198536119214611. Elapsed time: 217.93 seconds.
+Step: 600. Validation loss: 1.9296875. Learning rate: 0.0008819157493927215. Elapsed time: 266.79 seconds.
+Step: 700. Validation loss: 1.90625. Learning rate: 0.0008377889406793518. Elapsed time: 316.69 seconds.
+Step: 800. Validation loss: 1.8515625. Learning rate: 0.000788197746760474. Elapsed time: 365.99 seconds.
+Step: 900. Validation loss: 1.7109375. Learning rate: 0.0007339564536692135. Elapsed time: 415.76 seconds.
+Step: 1000. Validation loss: 1.6875. Learning rate: 0.0006759557019385473. Elapsed time: 466.51 seconds.
+Step: 1100. Validation loss: 1.671875. Learning rate: 0.0006151478623083757. Elapsed time: 517.48 seconds.
+Step: 1200. Validation loss: 1.671875. Learning rate: 0.0005525313978243025. Elapsed time: 569.07 seconds.
+Step: 1300. Validation loss: 1.671875. Learning rate: 0.0004891344691020307. Elapsed time: 619.76 seconds.
+Step: 1400. Validation loss: 1.6484375. Learning rate: 0.0004259980519584774. Elapsed time: 671.01 seconds.
+Step: 1500. Validation loss: 1.6328125. Learning rate: 0.00036415884461763896. Elapsed time: 722.64 seconds.
+Step: 1600. Validation loss: 1.609375. Learning rate: 0.0003046322451544151. Elapsed time: 772.69 seconds.
+Step: 1700. Validation loss: 1.609375. Learning rate: 0.0002483956786862901. Elapsed time: 822.75 seconds.
+Step: 1800. Validation loss: 1.609375. Learning rate: 0.00019637254807992693. Elapsed time: 873.33 seconds.
+Step: 1900. Validation loss: 1.609375. Learning rate: 0.00014941707170162489. Elapsed time: 924.43 seconds.
+Step: 2000. Validation loss: 1.6015625. Learning rate: 0.00010830025717536152. Elapsed time: 975.97 seconds.
+Step: 2100. Validation loss: 1.6015625. Learning rate: 7.369724145892224e-05. Elapsed time: 1027.03 seconds.
+Step: 2200. Validation loss: 1.6015625. Learning rate: 4.617620511371929e-05. Elapsed time: 1077.76 seconds.
+Step: 2300. Validation loss: 1.6015625. Learning rate: 2.618904279568042e-05. Elapsed time: 1128.75 seconds.
+Step: 2400. Validation loss: 1.6015625. Learning rate: 1.4063943157493203e-05. Elapsed time: 1179.77 seconds.
+********************
+Training finished!
+Elapsed time: 1217.96 seconds.
+********************
+
+max_learning_rate: 1e-2
+min_learning_rate: 1e-4
+Step: 100. Validation loss: 3.203125. Learning rate: 0.009989829694114166. Elapsed time: 42.10 seconds.
+Step: 200. Validation loss: 2.703125. Learning rate: 0.009908717827105774. Elapsed time: 85.07 seconds.
+Step: 300. Validation loss: 2.265625. Learning rate: 0.00974782594770281. Elapsed time: 128.54 seconds.
+Step: 400. Validation loss: 2.234375. Learning rate: 0.009509795896116974. Elapsed time: 173.32 seconds.
+Step: 500. Validation loss: 2.8125. Learning rate: 0.00919853611921461. Elapsed time: 220.57 seconds.
+Step: 600. Validation loss: 4.46875. Learning rate: 0.008819157493927216. Elapsed time: 268.41 seconds.
+
+max_learning_rate: 1e-3
+min_learning_rate: 1e-4
+Step: 100. Validation loss: 3.125. Learning rate: 0.0009990754267376514. Elapsed time: 45.56 seconds.
+Step: 200. Validation loss: 2.234375. Learning rate: 0.0009917016206459793. Elapsed time: 95.88 seconds.
+Step: 300. Validation loss: 2.03125. Learning rate: 0.000977075086154801. Elapsed time: 145.71 seconds.
+Step: 400. Validation loss: 2.0. Learning rate: 0.0009554359905560886. Elapsed time: 195.87 seconds.
+Step: 500. Validation loss: 1.9765625. Learning rate: 0.0009271396472013282. Elapsed time: 245.94 seconds.
+Step: 600. Validation loss: 1.9296875. Learning rate: 0.0008926506812661105. Elapsed time: 296.96 seconds.
+Step: 700. Validation loss: 1.90625. Learning rate: 0.0008525354006175926. Elapsed time: 347.40 seconds.
+Step: 800. Validation loss: 1.7734375. Learning rate: 0.0008074524970549763. Elapsed time: 397.82 seconds.
+Step: 900. Validation loss: 1.6875. Learning rate: 0.000758142230608376. Elapsed time: 447.82 seconds.
+Step: 1000. Validation loss: 1.6875. Learning rate: 0.0007054142744895884. Elapsed time: 498.42 seconds.
+Step: 1100. Validation loss: 1.671875. Learning rate: 0.0006501344202803415. Elapsed time: 549.48 seconds.
+Step: 1200. Validation loss: 1.671875. Learning rate: 0.0005932103616584568. Elapsed time: 600.39 seconds.
+Step: 1300. Validation loss: 1.640625. Learning rate: 0.0005355767900927552. Elapsed time: 650.00 seconds.
+Step: 1400. Validation loss: 1.6484375. Learning rate: 0.0004781800472349794. Elapsed time: 700.85 seconds.
+Step: 1500. Validation loss: 1.609375. Learning rate: 0.0004219625860160354. Elapsed time: 751.24 seconds.
+Step: 1600. Validation loss: 1.609375. Learning rate: 0.00036784749559492277. Elapsed time: 802.09 seconds.
+Step: 1700. Validation loss: 1.609375. Learning rate: 0.0003167233442602637. Elapsed time: 851.90 seconds.
+Step: 1800. Validation loss: 1.609375. Learning rate: 0.00026942958916356994. Elapsed time: 901.73 seconds.
+Step: 1900. Validation loss: 1.6015625. Learning rate: 0.00022674279245602261. Elapsed time: 953.33 seconds.
+Step: 2000. Validation loss: 1.6015625. Learning rate: 0.00018936387015941957. Elapsed time: 1004.48 seconds.
+Step: 2100. Validation loss: 1.59375. Learning rate: 0.00015790658314447477. Elapsed time: 1055.27 seconds.
+Step: 2200. Validation loss: 1.6015625. Learning rate: 0.00013288745919429028. Elapsed time: 1105.47 seconds.
+Step: 2300. Validation loss: 1.59375. Learning rate: 0.00011471731163243675. Elapsed time: 1156.43 seconds.
+Step: 2400. Validation loss: 1.6015625. Learning rate: 0.00010369449377953928. Elapsed time: 1207.67 seconds.
+Step: 2500. Validation loss: 1.59375. Learning rate: 0.0001. Elapsed time: 1258.07 seconds.
+********************
+Training finished!
+Elapsed time: 1258.30 seconds.
+********************
+
+********************
+Training arguments: Namespace(vocab_size=10000, context_length=256, d_model=512, num_layers=4, num_heads=16, d_ff=1344, rope_theta=10000, batch_size=512, max_learning_rate=0.003, min_learning_rate=0.0003, weight_decay=0.01, betas=[0.9, 0.999], eps=1e-08, grad_clip=0.01, warmup_steps=50, max_steps=2500, training_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-train.npy', validation_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-valid.npy', validation_interval=100, validation_iters=100, device='cuda:0', checkpoint_path=None, save_path='results/training_TinyStories')
+********************
+Step: 100. Validation loss: 2.71875. Learning rate: 0.002997226280212954. Elapsed time: 42.42 seconds.
+Step: 200. Validation loss: 2.015625. Learning rate: 0.0029751048619379382. Elapsed time: 85.73 seconds.
+Step: 300. Validation loss: 1.9765625. Learning rate: 0.0029312252584644026. Elapsed time: 130.91 seconds.
+Step: 400. Validation loss: 1.90625. Learning rate: 0.0028663079716682656. Elapsed time: 179.18 seconds.
+Step: 500. Validation loss: 1.8125. Learning rate: 0.002781418941603985. Elapsed time: 229.57 seconds.
+Step: 600. Validation loss: 1.6875. Learning rate: 0.0026779520437983317. Elapsed time: 279.88 seconds.
+Step: 700. Validation loss: 1.671875. Learning rate: 0.0025576062018527776. Elapsed time: 330.51 seconds.
+Step: 800. Validation loss: 1.640625. Learning rate: 0.002422357491164929. Elapsed time: 380.49 seconds.
+Step: 900. Validation loss: 1.609375. Learning rate: 0.002274426691825128. Elapsed time: 430.94 seconds.
+Step: 1000. Validation loss: 1.6015625. Learning rate: 0.0021162428234687653. Elapsed time: 483.14 seconds.
+Step: 1100. Validation loss: 1.59375. Learning rate: 0.0019504032608410244. Elapsed time: 534.63 seconds.
+Step: 1200. Validation loss: 1.5625. Learning rate: 0.0017796310849753703. Elapsed time: 585.62 seconds.
+Step: 1300. Validation loss: 1.5625. Learning rate: 0.0016067303702782655. Elapsed time: 636.36 seconds.
+Step: 1400. Validation loss: 1.5234375. Learning rate: 0.0014345401417049384. Elapsed time: 687.75 seconds.
+Step: 1500. Validation loss: 1.4375. Learning rate: 0.0012658877580481063. Elapsed time: 738.48 seconds.
+Step: 1600. Validation loss: 1.421875. Learning rate: 0.0011035424867847684. Elapsed time: 788.91 seconds.
+Step: 1700. Validation loss: 1.421875. Learning rate: 0.0009501700327807913. Elapsed time: 838.96 seconds.
+Step: 1800. Validation loss: 1.421875. Learning rate: 0.0008082887674907098. Elapsed time: 890.60 seconds.
+Step: 1900. Validation loss: 1.421875. Learning rate: 0.000680228377368068. Elapsed time: 942.12 seconds.
+Step: 2000. Validation loss: 1.40625. Learning rate: 0.0005680916104782587. Elapsed time: 993.46 seconds.
+Step: 2100. Validation loss: 1.421875. Learning rate: 0.0004737197494334243. Elapsed time: 1044.42 seconds.
+Step: 2200. Validation loss: 1.40625. Learning rate: 0.00039866237758287077. Elapsed time: 1095.37 seconds.
+Step: 2300. Validation loss: 1.40625. Learning rate: 0.00034415193489731023. Elapsed time: 1146.38 seconds.
+Step: 2400. Validation loss: 1.40625. Learning rate: 0.0003110834813386178. Elapsed time: 1197.17 seconds.
+Step: 2500. Validation loss: 1.40625. Learning rate: 0.0003. Elapsed time: 1247.32 seconds.
+********************
+Training finished!
+Elapsed time: 1247.53 seconds.
+********************
+
+
+
+Different batch_size:
+********************
+Training arguments: Namespace(vocab_size=10000, context_length=256, d_model=512, num_layers=4, num_heads=16, d_ff=1344, rope_theta=10000, batch_size=32, max_learning_rate=0.003, min_learning_rate=0.0003, weight_decay=0.01, betas=[0.9, 0.999], eps=1e-08, grad_clip=0.01, warmup_steps=50, max_steps=40000, training_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-train.npy', validation_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-valid.npy', validation_interval=1000, validation_iters=100, device='cuda:0', checkpoint_path=None, save_path='results/training_TinyStories_batch_size')
+********************
+Step: 1000. Validation loss: 2.5. Learning rate: 0.002996234564885092. Elapsed time: 42.88 seconds.
+Step: 2000. Validation loss: 2.640625. Learning rate: 0.002984158803200163. Elapsed time: 77.93 seconds.
+Step: 3000. Validation loss: 3.28125. Learning rate: 0.002963836917005586. Elapsed time: 115.21 seconds.
+Step: 4000. Validation loss: 3.359375. Learning rate: 0.002935394511141977. Elapsed time: 146.65 seconds.
+Step: 5000. Validation loss: 3.5625. Learning rate: 0.0028990073814887623. Elapsed time: 186.68 seconds.
+Step: 6000. Validation loss: 3.359375. Learning rate: 0.00285490042841084. Elapsed time: 218.63 seconds.
+
+********************
+Training arguments: Namespace(vocab_size=10000, context_length=256, d_model=512, num_layers=4, num_heads=16, d_ff=1344, rope_theta=10000, batch_size=128, max_learning_rate=0.003, min_learning_rate=0.0003, weight_decay=0.01, betas=[0.9, 0.999], eps=1e-08, grad_clip=0.01, warmup_steps=50, max_steps=10000, training_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-train.npy', validation_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-valid.npy', validation_interval=100, validation_iters=100, device='cuda:0', checkpoint_path=None, save_path='results/training_TinyStories')
+********************
+Step: 100. Validation loss: 2.84375. Learning rate: 0.0029998317758488375. Elapsed time: 11.04 seconds.
+Step: 200. Validation loss: 2.265625. Learning rate: 0.0029984862341789985. Elapsed time: 21.89 seconds.
+Step: 300. Validation loss: 2.15625. Learning rate: 0.002995796492104521. Elapsed time: 32.81 seconds.
+Step: 400. Validation loss: 2.046875. Learning rate: 0.0029917652308187985. Elapsed time: 43.81 seconds.
+Step: 500. Validation loss: 2.015625. Learning rate: 0.0029863964687707524. Elapsed time: 54.89 seconds.
+Step: 600. Validation loss: 2.015625. Learning rate: 0.0029796955576591494. Elapsed time: 66.06 seconds.
+Step: 700. Validation loss: 2.0. Learning rate: 0.002971669177097915. Elapsed time: 77.27 seconds.
+Step: 800. Validation loss: 1.9921875. Learning rate: 0.002962325327957747. Elapsed time: 88.53 seconds.
+Step: 900. Validation loss: 1.9921875. Learning rate: 0.002951673324390676. Elapsed time: 99.86 seconds.
+Step: 1000. Validation loss: 1.9921875. Learning rate: 0.002939723784545513. Elapsed time: 111.23 seconds.
+Step: 1100. Validation loss: 1.9765625. Learning rate: 0.0029264886199834505. Elapsed time: 122.63 seconds.
+Step: 1200. Validation loss: 1.9921875. Learning rate: 0.0029119810238043575. Elapsed time: 134.04 seconds.
+Step: 1300. Validation loss: 1.96875. Learning rate: 0.0028962154574956123. Elapsed time: 145.64 seconds.
+Step: 1400. Validation loss: 1.96875. Learning rate: 0.002879207636516574. Elapsed time: 157.29 seconds.
+Step: 1500. Validation loss: 1.953125. Learning rate: 0.002860974514633076. Elapsed time: 169.09 seconds.
+Step: 1600. Validation loss: 1.953125. Learning rate: 0.0028415342670175384. Elapsed time: 181.46 seconds.
+Step: 1700. Validation loss: 1.953125. Learning rate: 0.002820906272131565. Elapsed time: 193.77 seconds.
+Step: 1800. Validation loss: 1.9296875. Learning rate: 0.0027991110924090678. Elapsed time: 205.76 seconds.
+Step: 1900. Validation loss: 1.9296875. Learning rate: 0.0027761704537591888. Elapsed time: 218.10 seconds.
+Step: 2000. Validation loss: 1.9296875. Learning rate: 0.002752107223909439. Elapsed time: 230.31 seconds.
+Step: 2100. Validation loss: 1.921875. Learning rate: 0.002726945389610651. Elapsed time: 242.63 seconds.
+Step: 2200. Validation loss: 1.921875. Learning rate: 0.0027007100327264655. Elapsed time: 254.98 seconds.
+Step: 2300. Validation loss: 1.921875. Learning rate: 0.0026734273052311814. Elapsed time: 267.38 seconds.
+Step: 2400. Validation loss: 1.90625. Learning rate: 0.0026451244031409017. Elapsed time: 280.09 seconds.
+Step: 2500. Validation loss: 1.90625. Learning rate: 0.0026158295394039513. Elapsed time: 292.00 seconds.
+Step: 2600. Validation loss: 1.890625. Learning rate: 0.002585571915777598. Elapsed time: 304.27 seconds.
+Step: 2700. Validation loss: 1.8828125. Learning rate: 0.0025543816937191044. Elapsed time: 316.31 seconds.
+Step: 2800. Validation loss: 1.8828125. Learning rate: 0.002522289964320133. Elapsed time: 328.36 seconds.
+Step: 2900. Validation loss: 1.8515625. Learning rate: 0.0024893287173144685. Elapsed time: 340.59 seconds.
+Step: 3000. Validation loss: 1.828125. Learning rate: 0.0024555308091899555. Elapsed time: 353.20 seconds.
+Step: 3100. Validation loss: 1.8203125. Learning rate: 0.002420929930436438. Elapsed time: 365.61 seconds.
+Step: 3200. Validation loss: 1.8125. Learning rate: 0.0023855605719623452. Elapsed time: 378.58 seconds.
+Step: 3300. Validation loss: 1.8203125. Learning rate: 0.0023494579907134047. Elapsed time: 390.58 seconds.
+Step: 3400. Validation loss: 1.78125. Learning rate: 0.002312658174527751. Elapsed time: 403.47 seconds.
+Step: 3500. Validation loss: 1.75. Learning rate: 0.0022751978062624696. Elapsed time: 415.77 seconds.
+Step: 3600. Validation loss: 1.75. Learning rate: 0.002237114227227321. Elapsed time: 428.77 seconds.
+Step: 3700. Validation loss: 1.7421875. Learning rate: 0.0021984453999621153. Elapsed time: 440.90 seconds.
+Step: 3800. Validation loss: 1.703125. Learning rate: 0.0021592298703948277. Elapsed time: 453.35 seconds.
+Step: 3900. Validation loss: 1.7109375. Learning rate: 0.0021195067294181766. Elapsed time: 465.79 seconds.
+Step: 4000. Validation loss: 1.703125. Learning rate: 0.0020793155739229716. Elapsed time: 478.53 seconds.
+Step: 4100. Validation loss: 1.6875. Learning rate: 0.002038696467327075. Elapsed time: 490.44 seconds.
+Step: 4200. Validation loss: 1.7109375. Learning rate: 0.001997689899639311. Elapsed time: 502.96 seconds.
+Step: 4300. Validation loss: 1.7109375. Learning rate: 0.0019563367470981467. Elapsed time: 515.60 seconds.
+Step: 4400. Validation loss: 1.671875. Learning rate: 0.0019146782314253706. Elapsed time: 527.66 seconds.
+Step: 4500. Validation loss: 1.6796875. Learning rate: 0.0018727558787353792. Elapsed time: 539.78 seconds.
+Step: 4600. Validation loss: 1.671875. Learning rate: 0.0018306114781410467. Elapsed time: 552.06 seconds.
+Step: 4700. Validation loss: 1.671875. Learning rate: 0.001788287040097428. Elapsed time: 564.40 seconds.
+Step: 4800. Validation loss: 1.671875. Learning rate: 0.0017458247545248215. Elapsed time: 576.45 seconds.
+Step: 4900. Validation loss: 1.671875. Learning rate: 0.0017032669487529412. Elapsed time: 588.71 seconds.
+Step: 5000. Validation loss: 1.671875. Learning rate: 0.0016606560453281132. Elapsed time: 601.30 seconds.
+Step: 5100. Validation loss: 1.671875. Learning rate: 0.001618034519725558. Elapsed time: 613.87 seconds.
+Step: 5200. Validation loss: 1.65625. Learning rate: 0.001575444858008914. Elapsed time: 626.02 seconds.
+Step: 5300. Validation loss: 1.6484375. Learning rate: 0.0015329295144792066. Elapsed time: 638.50 seconds.
+Step: 5400. Validation loss: 1.6484375. Learning rate: 0.0014905308693554742. Elapsed time: 651.15 seconds.
+Step: 5500. Validation loss: 1.6484375. Learning rate: 0.0014482911865292475. Elapsed time: 663.63 seconds.
+Step: 5600. Validation loss: 1.6484375. Learning rate: 0.0014062525714349824. Elapsed time: 675.82 seconds.
+Step: 5700. Validation loss: 1.6328125. Learning rate: 0.0013644569290784444. Elapsed time: 688.50 seconds.
+Step: 5800. Validation loss: 1.6328125. Learning rate: 0.001322945922264893. Elapsed time: 700.51 seconds.
+Step: 5900. Validation loss: 1.640625. Learning rate: 0.0012817609300686858. Elapsed time: 713.55 seconds.
+Step: 6000. Validation loss: 1.6328125. Learning rate: 0.0012409430065857218. Elapsed time: 725.75 seconds.
+Step: 6100. Validation loss: 1.6171875. Learning rate: 0.0012005328400098228. Elapsed time: 738.11 seconds.
+Step: 6200. Validation loss: 1.609375. Learning rate: 0.001160570712073857. Elapsed time: 750.36 seconds.
+Step: 6300. Validation loss: 1.6171875. Learning rate: 0.0011210964578960343. Elapsed time: 762.44 seconds.
+Step: 6400. Validation loss: 1.6328125. Learning rate: 0.0010821494262713916. Elapsed time: 774.89 seconds.
+Step: 6500. Validation loss: 1.6015625. Learning rate: 0.0010437684404480576. Elapsed time: 787.02 seconds.
+Step: 6600. Validation loss: 1.609375. Learning rate: 0.0010059917594273996. Elapsed time: 799.84 seconds.
+Step: 6700. Validation loss: 1.6171875. Learning rate: 0.0009688570398266106. Elapsed time: 812.09 seconds.
+Step: 6800. Validation loss: 1.609375. Learning rate: 0.0009324012983417832. Elapsed time: 825.36 seconds.
+Step: 6900. Validation loss: 1.609375. Learning rate: 0.000896660874848856. Elapsed time: 836.98 seconds.
+Step: 7000. Validation loss: 1.609375. Learning rate: 0.0008616713961792364. Elapsed time: 849.92 seconds.
+Step: 7100. Validation loss: 1.609375. Learning rate: 0.0008274677406062028. Elapsed time: 862.67 seconds.
+Step: 7200. Validation loss: 1.609375. Learning rate: 0.0007940840030774777. Elapsed time: 875.39 seconds.
+Step: 7300. Validation loss: 1.609375. Learning rate: 0.0007615534612286493. Elapsed time: 888.31 seconds.
+Step: 7400. Validation loss: 1.609375. Learning rate: 0.0007299085422112946. Elapsed time: 900.27 seconds.
+Step: 7500. Validation loss: 1.6015625. Learning rate: 0.0006991807903688925. Elapsed time: 912.39 seconds.
+Step: 7600. Validation loss: 1.609375. Learning rate: 0.0006694008357927372. Elapsed time: 924.67 seconds.
+Step: 7700. Validation loss: 1.6015625. Learning rate: 0.0006405983637891928. Elapsed time: 936.77 seconds.
+Step: 7800. Validation loss: 1.59375. Learning rate: 0.0006128020852887396. Elapsed time: 949.30 seconds.
+Step: 7900. Validation loss: 1.609375. Learning rate: 0.0005860397082262903. Elapsed time: 961.80 seconds.
+Step: 8000. Validation loss: 1.609375. Learning rate: 0.0005603379099213199. Elapsed time: 974.14 seconds.
+Step: 8100. Validation loss: 1.59375. Learning rate: 0.0005357223104853324. Elapsed time: 985.98 seconds.
+Step: 8200. Validation loss: 1.59375. Learning rate: 0.0005122174472831767. Elapsed time: 998.60 seconds.
+Step: 8300. Validation loss: 1.578125. Learning rate: 0.0004898467504736688. Elapsed time: 1010.77 seconds.
+Step: 8400. Validation loss: 1.6015625. Learning rate: 0.00046863251965389866. Elapsed time: 1023.19 seconds.
+Step: 8500. Validation loss: 1.609375. Learning rate: 0.0004485959016305067. Elapsed time: 1035.67 seconds.
+Step: 8600. Validation loss: 1.6015625. Learning rate: 0.0004297568693400883. Elapsed time: 1048.07 seconds.
+Step: 8700. Validation loss: 1.6015625. Learning rate: 0.0004121342019397351. Elapsed time: 1060.67 seconds.
+Step: 8800. Validation loss: 1.6015625. Learning rate: 0.0003957454660875637. Elapsed time: 1073.21 seconds.
+Step: 8900. Validation loss: 1.6015625. Learning rate: 0.0003806069984318881. Elapsed time: 1085.56 seconds.
+Step: 9000. Validation loss: 1.6015625. Learning rate: 0.0003667338893264932. Elapsed time: 1098.18 seconds.
+Step: 9100. Validation loss: 1.578125. Learning rate: 0.0003541399677882429. Elapsed time: 1110.42 seconds.
+Step: 9200. Validation loss: 1.59375. Learning rate: 0.0003428377877120153. Elapsed time: 1122.83 seconds.
+Step: 9300. Validation loss: 1.6015625. Learning rate: 0.0003328386153567056. Elapsed time: 1134.95 seconds.
+Step: 9400. Validation loss: 1.6015625. Learning rate: 0.00032415241811477644. Elapsed time: 1147.51 seconds.
+Step: 9500. Validation loss: 1.59375. Learning rate: 0.0003167878545765429. Elapsed time: 1159.87 seconds.
+Step: 9600. Validation loss: 1.59375. Learning rate: 0.00031075226589910186. Elapsed time: 1172.06 seconds.
+Step: 9700. Validation loss: 1.6015625. Learning rate: 0.0003060516684885071. Elapsed time: 1184.41 seconds.
+Step: 9800. Validation loss: 1.6015625. Learning rate: 0.00030269074800248384. Elapsed time: 1197.17 seconds.
+Step: 9900. Validation loss: 1.59375. Learning rate: 0.0003006728546796653. Elapsed time: 1209.44 seconds.
+Step: 10000. Validation loss: 1.59375. Learning rate: 0.0003. Elapsed time: 1221.69 seconds.
+********************
+Training finished!
+Elapsed time: 1221.97 seconds.
+********************
+
+********************
+Training arguments: Namespace(vocab_size=10000, context_length=256, d_model=512, num_layers=4, num_heads=16, d_ff=1344, rope_theta=10000, batch_size=1024, max_learning_rate=0.003, min_learning_rate=0.0003, weight_decay=0.01, betas=[0.9, 0.999], eps=1e-08, grad_clip=0.01, warmup_steps=50, max_steps=1250, training_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-train.npy', validation_dataset='results/token_ids/tinystories-vocab/TinyStoriesV2-GPT4-valid.npy', validation_interval=50, validation_iters=100, device='cuda:0', checkpoint_path=None, save_path='results/training_TinyStories_batch_size')
+********************
+Step: 50. Validation loss: 3.4375. Learning rate: 0.003. Elapsed time: 53.47 seconds.
+Step: 100. Validation loss: 2.703125. Learning rate: 0.002988450562854644. Elapsed time: 109.10 seconds.
+Step: 150. Validation loss: 2.0625. Learning rate: 0.002953999865490242. Elapsed time: 171.59 seconds.
+Step: 200. Validation loss: 2.0. Learning rate: 0.0028972373688902374. Elapsed time: 234.37 seconds.
+Step: 250. Validation loss: 1.96875. Learning rate: 0.0028191342951089924. Elapsed time: 297.80 seconds.
+Step: 300. Validation loss: 1.921875. Learning rate: 0.0027210270093931677. Elapsed time: 362.24 seconds.
+Step: 350. Validation loss: 1.8515625. Learning rate: 0.002604594154601839. Elapsed time: 426.51 seconds.
+Step: 400. Validation loss: 1.6875. Learning rate: 0.002471827929161773. Elapsed time: 490.96 seconds.
+Step: 450. Validation loss: 1.671875. Learning rate: 0.002325. Elapsed time: 556.30 seconds.
+Step: 500. Validation loss: 1.671875. Learning rate: 0.0021666226336928716. Elapsed time: 621.47 seconds.
+Step: 550. Validation loss: 1.6328125. Learning rate: 0.001999405710888403. Elapsed time: 685.14 seconds.
+Step: 600. Validation loss: 1.609375. Learning rate: 0.00182621035949707. Elapsed time: 749.35 seconds.
+Step: 650. Validation loss: 1.6015625. Learning rate: 0.00165. Elapsed time: 814.10 seconds.
+Step: 700. Validation loss: 1.59375. Learning rate: 0.0014737896405029307. Elapsed time: 878.86 seconds.
+Step: 750. Validation loss: 1.578125. Learning rate: 0.0013005942891115968. Elapsed time: 943.81 seconds.
+Step: 800. Validation loss: 1.578125. Learning rate: 0.0011333773663071288. Elapsed time: 1008.79 seconds.
+Step: 850. Validation loss: 1.578125. Learning rate: 0.0009750000000000004. Elapsed time: 1074.14 seconds.
+Step: 900. Validation loss: 1.5625. Learning rate: 0.0008281720708382271. Elapsed time: 1138.00 seconds.
+Step: 950. Validation loss: 1.5078125. Learning rate: 0.0006954058453981609. Elapsed time: 1203.01 seconds.
+Step: 1000. Validation loss: 1.4765625. Learning rate: 0.0005789729906068326. Elapsed time: 1268.25 seconds.
+Step: 1050. Validation loss: 1.453125. Learning rate: 0.00048086570489100773. Elapsed time: 1333.19 seconds.
+Step: 1100. Validation loss: 1.4296875. Learning rate: 0.0004027626311097629. Elapsed time: 1398.49 seconds.
+Step: 1150. Validation loss: 1.421875. Learning rate: 0.0003460001345097579. Elapsed time: 1464.05 seconds.
+Step: 1200. Validation loss: 1.421875. Learning rate: 0.00031154943714535593. Elapsed time: 1528.81 seconds.
+Step: 1250. Validation loss: 1.421875. Learning rate: 0.0003. Elapsed time: 1594.39 seconds.
+********************
+Training finished!
+Elapsed time: 1594.71 seconds.
+********************
